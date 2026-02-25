@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurion Studio - Fundador</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: #0B0F1A; color: #FFFFFF; overflow: hidden; }
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            position: relative;
+            background: linear-gradient(135deg, #0B0F1A 0%, #1a1f3a 100%);
+            padding: 60px 80px;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            margin-bottom: 40px;
+            border-bottom: 2px solid rgba(139, 92, 246, 0.3);
+            padding-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 48px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(90deg, #FFFFFF, #C3CAD6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .content-wrapper {
+            display: flex;
+            gap: 60px;
+            height: 100%;
+        }
+        .bio-column {
+            flex: 3;
+            padding-right: 40px;
+        }
+        .founder-name {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 36px;
+            color: #14F1D9;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        .founder-role {
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            font-size: 24px;
+            color: #C3CAD6;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+        }
+        .paragraph {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #E0E0E0;
+            margin-bottom: 25px;
+            text-align: justify;
+        }
+        .highlights-column {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 20px;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            padding-left: 40px;
+        }
+        .highlight-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .highlight-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: linear-gradient(to bottom, #8B5CF6, #EC4899);
+        }
+        .highlight-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 18px;
+            color: #FFFFFF;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+        .highlight-desc {
+            font-size: 16px;
+            color: #C3CAD6;
+        }
+        .quote-box {
+            margin-top: 30px;
+            padding: 20px;
+            border-left: 4px solid #14F1D9;
+            background: rgba(20, 241, 217, 0.05);
+            font-style: italic;
+            color: #C3CAD6;
+        }
+    </style>
+</head>
+<body><div class="slide-container">
+        <div class="header">
+            <h1 class="title">Liderança com Visão Estratégica</h1>
+        </div>
+<div class="content-wrapper">
+            <div class="bio-column">
+                <h2 class="founder-name">Luis Felipe Ventura</h2>
+                <h3 class="founder-role">CEO &amp; Fundador</h3>
+<p class="paragraph">Executivo sênior com mais de 10 anos de experiência em Gestão Estratégica e Expansão de Negócios Internacionais. Formado em Gestão Financeira com especialização em Investment Banking, Valuation e gestão de negócios.</p>
+                <p class="paragraph">
+                    Trajetória de destaque que inclui a implementação da CRLAB (multinacional italiana) no Brasil, a fundação da Perpetuum Group — consultoria de reestruturação financeira — e projetos inovadores em IoT, tecnologia, agronegócio e energia.
+                </p>
+<div class="quote-box">
+                    "Na Aurion Studio, unimos visão estratégica e experiência multinacional para redefinir o padrão de qualidade em marketing digital e produção audiovisual com IA."
+                </div>
+            </div>
+<div class="highlights-column">
+                <div class="highlight-item">
+                    <h4 class="highlight-title">Experiência Executiva</h4>
+                    <p class="highlight-desc">+10 anos em gestão estratégica e expansão de negócios internacionais.</p>
+                </div>
+<div class="highlight-item">
+                    <h4 class="highlight-title">Formação Sólida</h4>
+                    <p class="highlight-desc">Investment Banking, Valuation Gestão de Negócios</p>
+                </div>
+<div class="highlight-item">
+                    <h4 class="highlight-title">Histórico de Sucesso</h4>
+                    <p class="highlight-desc">Implementação de multinacionais e reestruturação financeira de grandes empresas.</p>
+                </div>
+<div class="highlight-item">
+                    <h4 class="highlight-title">Visão Global</h4>
+                    <p class="highlight-desc">Atuação consolidada em mercados da Europa e América Latina.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowRight' || event.key === ' ') {
+                window.location.href = 'slide_4_servicos.html';
+            } else if (event.key === 'ArrowLeft') {
+                window.location.href = 'slide_2_quem_somos.html';
+            }
+        });
+    </script>
+    
+    <script>
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowRight' || event.key === ' ') {
+                window.location.href = 'slide_4_servicos.html';
+            } else if (event.key === 'ArrowLeft') {
+                window.location.href = 'slide_2_quem_somos.html';
+            }
+        });
+    </script>
+    
+    <script>
+        function scaleSlide() {
+            const container = document.querySelector('.slide-container');
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+            const slideWidth = 1280;
+            const slideHeight = 720;
+            
+            const scaleX = windowWidth / slideWidth;
+            const scaleY = windowHeight / slideHeight;
+            const scale = Math.min(scaleX, scaleY);
+            
+            container.style.transform = `scale(${scale})`;
+            container.style.transformOrigin = 'center center';
+            
+            // Center the container
+            document.body.style.display = 'flex';
+            document.body.style.justifyContent = 'center';
+            document.body.style.alignItems = 'center';
+            document.body.style.height = '100vh';
+            document.body.style.margin = '0';
+            document.body.style.backgroundColor = '#0B0F1A'; // Match background
+            document.body.style.overflow = 'hidden'; // Prevent scrollbars
+        }
+
+        window.addEventListener('resize', scaleSlide);
+        window.addEventListener('load', scaleSlide);
+    </script>
+</body>
+    
+    
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurion Studio - Medic Supply</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: #0B0F1A; color: #FFFFFF; overflow: hidden; }
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            position: relative;
+            background-image: url('../assets/hero_cover.png');
+            background-size: cover;
+            background-position: center;
+            padding: 40px 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Dark overlay for better contrast */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(11, 15, 26, 0.85);
+            z-index: 0;
+        }
+        
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 48px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(90deg, #14F1D9, #FFFFFF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(20, 241, 217, 0.3);
+        }
+        .subtitle {
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            font-size: 24px;
+            color: #C3CAD6;
+            letter-spacing: 1px;
+        }
+        
+        .video-container {
+            width: 100%;
+            max-width: 900px;
+            flex: 1;
+            background: #000;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 50px rgba(20, 241, 217, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #8B5CF6, #EC4899);
+            padding: 10px 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            color: #FFFFFF;
+            text-transform: uppercase;
+            border-radius: 4px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 2;
+            pointer-events: none; /* Allow clicks to pass through to video controls if needed */
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="overlay"></div>
+        
+        <div class="content-wrapper">
+            <div class="header">
+                <h1 class="title">Case Especial: Medic Supply</h1>
+                <p class="subtitle">Inovação e tecnologia aplicadas à saúde</p>
+            </div>
+            
+            <div class="video-container">
+                <div class="badge">Exclusive Preview</div>
+                <video controls preload="metadata" playsinline>
+                    <source src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663060819441/kmXCbeimXoaWFPhL.mp4" type="video/mp4">
+                    Seu navegador não suporta a tag de vídeo.
+                </video>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowRight' || event.key === ' ') {
+                window.location.href = 'slide_6d_benchmarks.html';
+            } else if (event.key === 'ArrowLeft') {
+                window.location.href = 'slide_6b_portfolio_grid.html';
+            }
+        });
+    </script>
+    
+    <script>
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowRight' || event.key === ' ') {
+                window.location.href = 'slide_6d_benchmarks.html';
+            } else if (event.key === 'ArrowLeft') {
+                window.location.href = 'slide_6b_portfolio_grid.html';
+            }
+        });
+    </script>
+    
+    <script>
+        function scaleSlide() {
+            const container = document.querySelector('.slide-container');
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+            const slideWidth = 1280;
+            const slideHeight = 720;
+            
+            const scaleX = windowWidth / slideWidth;
+            const scaleY = windowHeight / slideHeight;
+            const scale = Math.min(scaleX, scaleY);
+            
+            container.style.transform = `scale(${scale})`;
+            container.style.transformOrigin = 'center center';
+            
+            // Center the container
+            document.body.style.display = 'flex';
+            document.body.style.justifyContent = 'center';
+            document.body.style.alignItems = 'center';
+            document.body.style.height = '100vh';
+            document.body.style.margin = '0';
+            document.body.style.backgroundColor = '#0B0F1A'; // Match background
+            document.body.style.overflow = 'hidden'; // Prevent scrollbars
+        }
+
+        window.addEventListener('resize', scaleSlide);
+        window.addEventListener('load', scaleSlide);
+    </script>
+</body>
+    
+    
+</html>

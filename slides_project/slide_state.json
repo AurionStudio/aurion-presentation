@@ -1,0 +1,144 @@
+{
+  "project_info": {
+    "title": "AURION STUDIO",
+    "created": 1771965690.8375032,
+    "last_updated": 1771975205.6949146,
+    "total_slides": 11
+  },
+  "slides": [
+    {
+      "id": "slide_1_capa",
+      "state": "edited",
+      "pageNum": 1
+    },
+    {
+      "id": "slide_2_quem_somos",
+      "state": "edited",
+      "pageNum": 2
+    },
+    {
+      "id": "slide_3_fundador",
+      "state": "edited",
+      "pageNum": 3
+    },
+    {
+      "id": "slide_4_servicos",
+      "state": "edited",
+      "pageNum": 4
+    },
+    {
+      "id": "slide_5_como_trabalhamos",
+      "state": "edited",
+      "pageNum": 5
+    },
+    {
+      "id": "slide_6_clientes",
+      "state": "edited",
+      "pageNum": 6
+    },
+    {
+      "id": "slide_6b_portfolio_grid",
+      "state": "edited",
+      "pageNum": 7
+    },
+    {
+      "id": "slide_6c_medic_supply",
+      "state": "edited",
+      "pageNum": 8
+    },
+    {
+      "id": "slide_7_presenca_global",
+      "state": "edited",
+      "pageNum": 9
+    },
+    {
+      "id": "slide_8_diferenciais",
+      "state": "edited",
+      "pageNum": 10
+    },
+    {
+      "id": "slide_9_contato",
+      "state": "edited",
+      "pageNum": 11
+    }
+  ],
+  "outline": [
+    {
+      "id": "slide_1_capa",
+      "title": "AURION STUDIO",
+      "summary": "Capa impactante com título, subtítulo e imagem hero com efeito aurora boreal.",
+      "image_plan": "/home/ubuntu/upload/AURION-STUDIO_EQ3_AURORA_LABsmall_TAGLINE_LIGHT_GAP80.png - The slide explicitly requests 'hero_cover' image with aurora boreal digital effect, and image 1 matches this description, featuring the Aurion Studio logo with an aurora-like background.",
+      "slide_template_key": ""
+    },
+    {
+      "id": "slide_2_quem_somos",
+      "title": "Quem Somos",
+      "summary": "Apresentação da agência, missão, visão e dados sobre a fundação e atuação global.",
+      "image_plan": "/home/ubuntu/aurion_presentation/assets/about_bg.png - The slide requests a dark background with a subtle world map, which image 4 provides. The aurora effect also aligns with the brand's visual guidelines.",
+      "slide_template_key": ""
+    },
+    {
+      "id": "slide_3_fundador",
+      "title": "Liderança com Visão Estratégica",
+      "summary": "Perfil do fundador Luis Felipe Ventura, destacando experiência e formação.",
+      "image_plan": "",
+      "slide_template_key": ""
+    },
+    {
+      "id": "slide_4_servicos",
+      "title": "Soluções Completas para a Era Digital",
+      "summary": "Grid com os 6 principais serviços oferecidos pela Aurion Studio.",
+      "image_plan": "/home/ubuntu/aurion_presentation/assets/services_bg.png - The slide requests a dark background with subtle hexagonal patterns, which image 3 provides. This aligns with the 'futuristic' and 'clean' style mentioned in the visual guidelines.",
+      "slide_template_key": ""
+    },
+    {
+      "id": "slide_5_como_trabalhamos",
+      "title": "Processo Simples, Resultados Extraordinários",
+      "summary": "Timeline horizontal explicando as 3 etapas do processo de trabalho.",
+      "image_plan": "",
+      "slide_template_key": ""
+    },
+    {
+      "id": "slide_6_clientes",
+      "title": "Marcas que Confiam em Nós",
+      "summary": "Showcase com logos dos clientes Beats, FlyFish e Tomorrowland.",
+      "image_plan": "/home/ubuntu/upload/search_images/OoWq0oihXybi.png; /home/ubuntu/upload/search_images/nI86kq5hWB3o.png; /home/ubuntu/upload/search_images/PzrbuUWesLSM.webp - The slide explicitly mentions logos of Beats, Tomorrowland, and FlyFish. Images 7, 18, and 28 are clear, high-quality logos for these brands, respectively. Image 7 is a clean Beats logo, image 18 is a clear Tomorrowland logo, and image 28 is a clear Flyfish logo.",
+      "slide_template_key": ""
+    },
+    {
+      "id": "slide_6b_portfolio_grid",
+      "title": "Portfólio em Ação",
+      "summary": "Grid dinâmico com vídeos de portfólio (Credipay, Creditoplan, MM Motors, FlyFish).",
+      "image_plan": "/home/ubuntu/aurion_presentation/assets/services_bg.png",
+      "slide_template_key": ""
+    },
+    {
+      "id": "slide_6c_medic_supply",
+      "title": "Case Especial: Medic Supply",
+      "summary": "Destaque exclusivo para o vídeo da Medic Supply.",
+      "image_plan": "/home/ubuntu/aurion_presentation/assets/hero_cover.png",
+      "slide_template_key": ""
+    },
+    {
+      "id": "slide_7_presenca_global",
+      "title": "Presença Global, Resultados Locais",
+      "summary": "Mapa ou infográfico destacando a presença em Tallinn, Europa e Brasil.",
+      "image_plan": "",
+      "slide_template_key": ""
+    },
+    {
+      "id": "slide_8_diferenciais",
+      "title": "Por Que a Aurion Studio é Diferente",
+      "summary": "Cards destacando tecnologia, estratégia, escala global e resultados comprovados.",
+      "image_plan": "",
+      "slide_template_key": ""
+    },
+    {
+      "id": "slide_9_contato",
+      "title": "Vamos Transformar Sua Marca?",
+      "summary": "Slide de encerramento com call to action e informações de contato.",
+      "image_plan": "/home/ubuntu/aurion_presentation/assets/cta_bg.png - The slide requests a dynamic background with intense aurora, which image 6 provides. This aligns with the brand's visual guidelines and creates an impactful call to action slide.",
+      "slide_template_key": ""
+    }
+  ]
+}

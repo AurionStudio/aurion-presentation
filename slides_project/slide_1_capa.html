@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurion Studio - Capa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: #0B0F1A; color: #FFFFFF; overflow: hidden; }
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            position: relative;
+            background-image: url('../assets/hero_cover.png');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .logo-container {
+            margin-bottom: 40px;
+        }
+        .logo-img {
+            max-width: 400px;
+            height: auto;
+        }
+        .title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 80px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #14F1D9, #3AA6FF, #8B5CF6, #EC4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(20, 241, 217, 0.3);
+        }
+        .subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 32px;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            color: #FFFFFF;
+            margin-bottom: 60px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .tagline {
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            font-size: 24px;
+            color: #C3CAD6;
+            letter-spacing: 2px;
+            position: absolute;
+            bottom: 60px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .glow-effect {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(58, 166, 255, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="glow-effect"></div>
+        <div class="logo-container">
+            <img src="../assets/aurion_logo.png" alt="Aurion Studio Logo" class="logo-img">
+        </div>
+        <!-- Title is optional since logo already contains the name, but adding for emphasis if needed, or keeping it hidden if logo is sufficient. 
+             Given the logo image has text, I will focus on the subtitle and tagline to complement it. -->
+        <h2 class="subtitle">Creative Intelligence</h2>
+        <p class="tagline">Inteligência Artificial a serviço da sua marca</p>
+    </div>
+
+    <script>
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowRight' || event.key === ' ') {
+                window.location.href = 'slide_2_quem_somos.html';
+            } else if (event.key === 'ArrowLeft') {
+                window.location.href = 'slide_9_contato.html';
+            }
+        });
+    </script>
+    
+    <script>
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowRight' || event.key === ' ') {
+                window.location.href = 'slide_2_quem_somos.html';
+            } else if (event.key === 'ArrowLeft') {
+                window.location.href = 'slide_9_contato.html';
+            }
+        });
+    </script>
+    
+    <script>
+        function scaleSlide() {
+            const container = document.querySelector('.slide-container');
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+            const slideWidth = 1280;
+            const slideHeight = 720;
+            
+            const scaleX = windowWidth / slideWidth;
+            const scaleY = windowHeight / slideHeight;
+            const scale = Math.min(scaleX, scaleY);
+            
+            container.style.transform = `scale(${scale})`;
+            container.style.transformOrigin = 'center center';
+            
+            // Center the container
+            document.body.style.display = 'flex';
+            document.body.style.justifyContent = 'center';
+            document.body.style.alignItems = 'center';
+            document.body.style.height = '100vh';
+            document.body.style.margin = '0';
+            document.body.style.backgroundColor = '#0B0F1A'; // Match background
+            document.body.style.overflow = 'hidden'; // Prevent scrollbars
+        }
+
+        window.addEventListener('resize', scaleSlide);
+        window.addEventListener('load', scaleSlide);
+    </script>
+</body>
+    
+    
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurion Studio - Presença Global</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: #0B0F1A; color: #FFFFFF; overflow: hidden; }
+        .slide-container {
+            width: 1280px;
+            height: auto; /* changed from fixed 720px so container shrinks to content */
+            position: relative;
+            background-color: #0B0F1A;
+            /* keep top padding to preserve title spacing */
+            padding: 80px 40px 24px 40px; /* reduced bottom padding */
+            display: flex;
+            flex-direction: column;
+        }
+        /* Abstract background elements using CSS only */
+        .bg-element {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.15;
+            z-index: 0;
+        }
+        .bg-1 { top: -100px; left: -100px; width: 600px; height: 600px; background: #14F1D9; }
+        .bg-2 { bottom: -100px; right: -100px; width: 600px; height: 600px; background: #EC4899; }
+        
+        .header {
+            margin-bottom: 20px; /* slightly reduced from 30 to tighten layout */
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        .title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 48px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #FFFFFF, #C3CAD6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            font-size: 24px;
+            color: #14F1D9;
+            letter-spacing: 1px;
+        }
+        
+        .locations-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px; /* reduced gap */
+            position: relative;
+            z-index: 1;
+            align-items: start; /* avoid stretching */
+        }
+        
+        .location-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 20px 16px; /* reduced vertical padding */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+        
+        .location-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+        }
+        
+        .card-tallinn::before { background: #14F1D9; box-shadow: 0 0 15px #14F1D9; }
+        .card-europe::before { background: #8B5CF6; box-shadow: 0 0 15px #8B5CF6; }
+        .card-brazil::before { background: #EC4899; box-shadow: 0 0 15px #EC4899; }
+        
+        .icon-container {
+            font-size: 40px;
+            margin-bottom: 12px; /* reduced */
+        }
+        .card-tallinn .icon-container { color: #14F1D9; }
+        .card-europe .icon-container { color: #8B5CF6; }
+        .card-brazil .icon-container { color: #EC4899; }
+        
+        .location-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 24px;
+            color: #FFFFFF;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+        
+        .location-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            color: #C3CAD6;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .location-desc {
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #E0E0E0;
+        }
+        
+        .highlight {
+            font-weight: 600;
+            color: #FFFFFF;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="bg-element bg-1"></div>
+        <div class="bg-element bg-2"></div>
+        
+        <div class="header">
+            <h1 class="title">Presença Global, Resultados Locais</h1>
+            <p class="subtitle">Uma agência multinacional com DNA de inovação</p>
+        </div>
+        
+        <div class="locations-grid">
+            <!-- Tallinn -->
+            <div class="location-card card-tallinn">
+                <div class="icon-container">
+                    <i class="fas fa-server"></i>
+                </div>
+                <h2 class="location-title">Tallinn, Estônia</h2>
+                <h3 class="location-subtitle">Sede Global</h3>
+                <p class="location-desc">
+                    Centro de operações e desenvolvimento tecnológico. Nossa base estratégica na Europa para inovação em IA e automação.
+                </p>
+            </div>
+            
+            <!-- Europe -->
+            <div class="location-card card-europe">
+                <div class="icon-container">
+                    <i class="fas fa-globe-europe"></i>
+                </div>
+                <h2 class="location-title">Espanha &amp; Itália</h2>
+                <h3 class="location-subtitle">Mercado Europeu</h3>
+                <p class="location-desc">
+                    Principal mercado de atuação, com clientes consolidados nos segmentos de marketing digital e produção audiovisual.
+                </p>
+            </div>
+            
+            <!-- Brazil -->
+            <div class="location-card card-brazil">
+                <div class="icon-container">
+                    <i class="fas fa-flag"></i>
+                </div>
+                <h2 class="location-title">Brasil</h2>
+                <h3 class="location-subtitle">Expansão 2025</h3>
+                <p class="location-desc">
+                    Atuação desde outubro de 2025, atendendo grandes marcas como <span class="highlight">Beats</span>, <span class="highlight">FlyFish</span> e <span class="highlight">Tomorrowland</span>.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowRight' || event.key === ' ') {
+                window.location.href = 'slide_8_diferenciais.html';
+            } else if (event.key === 'ArrowLeft') {
+                window.location.href = 'slide_6d_benchmarks.html';
+            }
+        });
+    </script>
+    
+    <script>
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowRight' || event.key === ' ') {
+                window.location.href = 'slide_8_diferenciais.html';
+            } else if (event.key === 'ArrowLeft') {
+                window.location.href = 'slide_6d_benchmarks.html';
+            }
+        });
+    </script>
+    
+    <script>
+        function scaleSlide() {
+            const container = document.querySelector('.slide-container');
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+            const slideWidth = 1280;
+            const slideHeight = 720;
+            
+            const scaleX = windowWidth / slideWidth;
+            const scaleY = windowHeight / slideHeight;
+            const scale = Math.min(scaleX, scaleY);
+            
+            container.style.transform = `scale(${scale})`;
+            container.style.transformOrigin = 'center center';
+            
+            // Center the container
+            document.body.style.display = 'flex';
+            document.body.style.justifyContent = 'center';
+            document.body.style.alignItems = 'center';
+            document.body.style.height = '100vh';
+            document.body.style.margin = '0';
+            document.body.style.backgroundColor = '#0B0F1A'; // Match background
+            document.body.style.overflow = 'hidden'; // Prevent scrollbars
+        }
+
+        window.addEventListener('resize', scaleSlide);
+        window.addEventListener('load', scaleSlide);
+    </script>
+</body>
+    
+    
+</html>

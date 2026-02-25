@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurion Studio - Quem Somos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: #0B0F1A; color: #FFFFFF; overflow: hidden; }
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            position: relative;
+            background-image: url('../assets/about_bg.png');
+            background-size: cover;
+            background-position: center;
+            padding: 60px 80px;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            margin-bottom: 40px;
+            border-bottom: 2px solid rgba(20, 241, 217, 0.3);
+            padding-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 48px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(90deg, #FFFFFF, #C3CAD6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .logo-small {
+            height: 40px;
+            opacity: 0.8;
+        }
+        .content-wrapper {
+            display: flex;
+            gap: 60px;
+            height: 100%;
+        }
+        .text-column {
+            flex: 3;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .paragraph {
+            font-size: 20px;
+            line-height: 1.6;
+            color: #C3CAD6;
+            margin-bottom: 30px;
+            text-align: justify;
+        }
+        .highlight-text {
+            color: #14F1D9;
+            font-weight: 600;
+        }
+        .cards-column {
+            flex: 2;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            align-content: center;
+        }
+        .info-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 0; /* No rounded corners as per guidelines */
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: transform 0.3s ease;
+        }
+        .icon-box {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, rgba(20, 241, 217, 0.2), rgba(58, 166, 255, 0.2));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: #14F1D9;
+            border: 1px solid rgba(20, 241, 217, 0.3);
+        }
+        .card-content h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: #FFFFFF;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+        .card-content p {
+            font-size: 16px;
+            color: #C3CAD6;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header">
+            <h1 class="title">Quem Somos</h1>
+            <img src="../assets/aurion_logo.png" alt="Aurion Logo" class="logo-small">
+        </div>
+        
+        <div class="content-wrapper">
+            <div class="text-column">
+                <p class="paragraph">
+                    A <span class="highlight-text">Aurion Studio</span> é uma agência de inteligência criativa que combina tecnologia de ponta com estratégia de negócios para transformar marcas na era digital.
+                </p>
+                <p class="paragraph">
+                    Fundada em maio de 2025, somos uma multinacional sediada em <span class="highlight-text">Tallinn, Estônia</span>, com atuação consolidada na Europa — atendendo principalmente o mercado espanhol e clientes italianos — e presença no Brasil desde outubro de 2025.
+                </p>
+                <p class="paragraph">
+                    Nossa missão é democratizar a produção audiovisual de alta qualidade e soluções tecnológicas através da Inteligência Artificial, oferecendo resultados escaláveis, mensuráveis e de alto impacto.
+                </p>
+            </div>
+            
+            <div class="cards-column">
+                <div class="info-card">
+                    <div class="icon-box"><i class="fas fa-map-marker-alt"></i></div>
+                    <div class="card-content">
+                        <h3>Sede Global</h3>
+                        <p>Tallinn, Estônia</p>
+                    </div>
+                </div>
+                
+                <div class="info-card">
+                    <div class="icon-box"><i class="fas fa-globe-europe"></i></div>
+                    <div class="card-content">
+                        <h3>Mercados</h3>
+                        <p>Europa (Espanha, Itália) & Brasil</p>
+                    </div>
+                </div>
+                
+                <div class="info-card">
+                    <div class="icon-box"><i class="fas fa-calendar-alt"></i></div>
+                    <div class="card-content">
+                        <h3>Fundação</h3>
+                        <p>Maio de 2025</p>
+                    </div>
+                </div>
+                
+                <div class="info-card">
+                    <div class="icon-box"><i class="fas fa-rocket"></i></div>
+                    <div class="card-content">
+                        <h3>Impacto</h3>
+                        <p>+500 projetos realizados</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowRight' || event.key === ' ') {
+                window.location.href = 'slide_3_fundador.html';
+            } else if (event.key === 'ArrowLeft') {
+                window.location.href = 'slide_1_capa.html';
+            }
+        });
+    </script>
+    
+    <script>
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowRight' || event.key === ' ') {
+                window.location.href = 'slide_3_fundador.html';
+            } else if (event.key === 'ArrowLeft') {
+                window.location.href = 'slide_1_capa.html';
+            }
+        });
+    </script>
+    
+    <script>
+        function scaleSlide() {
+            const container = document.querySelector('.slide-container');
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+            const slideWidth = 1280;
+            const slideHeight = 720;
+            
+            const scaleX = windowWidth / slideWidth;
+            const scaleY = windowHeight / slideHeight;
+            const scale = Math.min(scaleX, scaleY);
+            
+            container.style.transform = `scale(${scale})`;
+            container.style.transformOrigin = 'center center';
+            
+            // Center the container
+            document.body.style.display = 'flex';
+            document.body.style.justifyContent = 'center';
+            document.body.style.alignItems = 'center';
+            document.body.style.height = '100vh';
+            document.body.style.margin = '0';
+            document.body.style.backgroundColor = '#0B0F1A'; // Match background
+            document.body.style.overflow = 'hidden'; // Prevent scrollbars
+        }
+
+        window.addEventListener('resize', scaleSlide);
+        window.addEventListener('load', scaleSlide);
+    </script>
+</body>
+    
+    
+</html>

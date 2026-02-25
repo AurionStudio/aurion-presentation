@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurion Studio - Serviços</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: #0B0F1A; color: #FFFFFF; overflow: hidden; }
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            position: relative;
+            background-image: url('../assets/services_bg.png');
+            background-size: cover;
+            background-position: center;
+            padding: 40px 60px;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 42px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(90deg, #14F1D9, #3AA6FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            font-size: 20px;
+            color: #C3CAD6;
+            letter-spacing: 1px;
+        }
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 20px;
+            height: 100%;
+        }
+        .service-card {
+            background: rgba(11, 15, 26, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #8B5CF6, #EC4899);
+            opacity: 0.7;
+        }
+        .icon-wrapper {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+            color: #14F1D9;
+            font-size: 18px;
+            border: 1px solid rgba(20, 241, 217, 0.3);
+        }
+        .card-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 18px;
+            color: #FFFFFF;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        .card-desc {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #C3CAD6;
+        }
+    </style>
+</head>
+<body><div class="slide-container">
+        <div class="header">
+            <h1 class="title">Soluções Completas para a Era Digital</h1>
+            <p class="subtitle">Combinamos IA, criatividade e estratégia para entregar resultados reais</p>
+        </div>
+<div class="services-grid">
+            <!-- Service 1 -->
+            <div class="service-card">
+                <div class="icon-wrapper"><i class="fas fa-video"></i></div>
+                <h3 class="card-title">Produção Audiovisual com IA</h3>
+                <p class="card-desc">Vídeos cinematográficos de alto impacto, animações e VSLs criados com IA de última geração. Entrega em até 48 horas.</p>
+            </div>
+<!-- Service 2 -->
+            <div class="service-card">
+                <div class="icon-wrapper"><i class="fas fa-user-astronaut"></i></div>
+                <h3 class="card-title">Avatares Digitais</h3>
+                <p class="card-desc">Apresentadores virtuais hiperrealistas para cursos e vídeos de vendas. Produção escalável em múltiplos idiomas.</p>
+            </div>
+<!-- Service 3 -->
+            <div class="service-card">
+                <div class="icon-wrapper"><i class="fas fa-chart-line"></i></div>
+                <h3 class="card-title">Marketing Estratégico</h3>
+                <p class="card-desc">SEO avançado, campanhas de performance e otimização de ROI com analíticas precisas baseadas em dados geridos por profissionais com mais de 20 anos de mercado.</p>
+            </div>
+<!-- Service 4 -->
+            <div class="service-card">
+                <div class="icon-wrapper"><i class="fas fa-robot"></i></div>
+                <h3 class="card-title">Automações &amp; Agentes IA</h3>
+                <p class="card-desc">Assistentes virtuais multicanal integrados a CRM e ERP, garantindo suporte 24/7 e experiência otimizada.</p>
+            </div>
+<!-- Service 5 -->
+            <div class="service-card">
+                <div class="icon-wrapper"><i class="fas fa-code"></i></div>
+                <h3 class="card-title">Micro SaaS &amp; Apps</h3>
+                <p class="card-desc">Desenvolvimento de soluções digitais personalizadas e escaláveis, com foco em eficiência e automação de processos.</p>
+            </div>
+<!-- Service 6 -->
+            <div class="service-card">
+                <div class="icon-wrapper"><i class="fas fa-layer-group"></i></div>
+                <h3 class="card-title">Projetos Sob Medida</h3>
+                <p class="card-desc">Desde anúncios de TV até campanhas multicanal. Vídeos institucionais, lançamentos e produções especiais.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowRight' || event.key === ' ') {
+                window.location.href = 'slide_5_como_trabalhamos.html';
+            } else if (event.key === 'ArrowLeft') {
+                window.location.href = 'slide_3_fundador.html';
+            }
+        });
+    </script>
+    
+    <script>
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowRight' || event.key === ' ') {
+                window.location.href = 'slide_5_como_trabalhamos.html';
+            } else if (event.key === 'ArrowLeft') {
+                window.location.href = 'slide_3_fundador.html';
+            }
+        });
+    </script>
+    
+    <script>
+        function scaleSlide() {
+            const container = document.querySelector('.slide-container');
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+            const slideWidth = 1280;
+            const slideHeight = 720;
+            
+            const scaleX = windowWidth / slideWidth;
+            const scaleY = windowHeight / slideHeight;
+            const scale = Math.min(scaleX, scaleY);
+            
+            container.style.transform = `scale(${scale})`;
+            container.style.transformOrigin = 'center center';
+            
+            // Center the container
+            document.body.style.display = 'flex';
+            document.body.style.justifyContent = 'center';
+            document.body.style.alignItems = 'center';
+            document.body.style.height = '100vh';
+            document.body.style.margin = '0';
+            document.body.style.backgroundColor = '#0B0F1A'; // Match background
+            document.body.style.overflow = 'hidden'; // Prevent scrollbars
+        }
+
+        window.addEventListener('resize', scaleSlide);
+        window.addEventListener('load', scaleSlide);
+    </script>
+</body>
+    
+    
+</html>
