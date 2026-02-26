@@ -17,38 +17,24 @@
             position: fixed;
         }
         
-        .slide-container {
+        .slide-wrapper {
             width: 100vw;
             height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-        
-        .slide-wrapper {
             display: none;
-            width: 100%;
-            height: 100%;
             position: absolute;
-            top: 0;
+            top: 0; 
             left: 0;
+            overflow: hidden;
         }
         
-        .slide-wrapper.active {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .slide-wrapper.active { 
+            display: block; 
         }
         
-        .slide-content {
+        .slide-wrapper iframe {
             width: 100%;
             height: 100%;
-            aspect-ratio: 16 / 9;
-            object-fit: contain;
-            background: #0a0a0f;
+            border: none;
         }
 
         /* Invisible touch zones for tap navigation */
@@ -108,7 +94,6 @@
     </style>
 </head>
 <body>
-    <div class="slide-container" id="slideContainer"></div>
     <div class="slide-counter" id="counter">1 / 12</div>
     <div class="nav-hint">← → ou deslize</div>
 
@@ -134,22 +119,171 @@
 
         let current = 0;
         const total = slides.length;
-        const container = document.getElementById('slideContainer');
+        const body = document.body;
         const counter = document.getElementById('counter');
+        const iframes = [];
 
-        // Create all slide wrappers with embed
+        // CSS responsivo que será injetado em cada iframe
+        const responsiveCSS = `
+            <style>
+                @media (max-width: 1024px) {
+                    .slide-container {
+                        width: 100vw !important;
+                        height: 100vh !important;
+                        padding: 20px !important;
+                        max-width: 100% !important;
+                    }
+                    
+                    .title {
+                        font-size: 32px !important;
+                        letter-spacing: 1px !important;
+                    }
+                    
+                    .subtitle {
+                        font-size: 16px !important;
+                        letter-spacing: 0.5px !important;
+                    }
+                    
+                    .logos-grid {
+                        grid-template-columns: repeat(2, 1fr) !important;
+                        gap: 20px !important;
+                        padding: 20px !important;
+                        max-width: 100% !important;
+                    }
+                    
+                    .logo-item {
+                        height: 80px !important;
+                        width: 100% !important;
+                    }
+                    
+                    .logo-img {
+                        max-width: 90% !important;
+                        max-height: 90% !important;
+                    }
+                    
+                    .logo-beats { max-height: 60px !important; }
+                    .logo-tomorrowland { max-height: 70px !important; }
+                    .logo-flyfish { max-height: 50px !important; }
+                    
+                    .footer-text {
+                        margin-top: 20px !important;
+                        font-size: 14px !important;
+                        padding-top: 15px !important;
+                    }
+                    
+                    .header {
+                        margin-bottom: 30px !important;
+                    }
+                    
+                    /* Serviços */
+                    .services-grid {
+                        grid-template-columns: repeat(2, 1fr) !important;
+                        gap: 15px !important;
+                        padding: 15px !important;
+                    }
+                    
+                    .service-card {
+                        padding: 15px !important;
+                        min-height: auto !important;
+                    }
+                    
+                    .service-title {
+                        font-size: 14px !important;
+                    }
+                    
+                    .service-desc {
+                        font-size: 12px !important;
+                    }
+                    
+                    /* Texto geral */
+                    body {
+                        font-size: 14px !important;
+                    }
+                    
+                    h1, .title {
+                        font-size: 28px !important;
+                    }
+                    
+                    h2 {
+                        font-size: 20px !important;
+                    }
+                    
+                    p {
+                        font-size: 13px !important;
+                        line-height: 1.4 !important;
+                    }
+                    
+                    /* Grid responsivo genérico */
+                    .grid {
+                        grid-template-columns: repeat(2, 1fr) !important;
+                        gap: 10px !important;
+                    }
+                    
+                    /* Flex responsivo */
+                    .flex-container {
+                        flex-direction: column !important;
+                    }
+                }
+                
+                @media (max-width: 768px) {
+                    .slide-container {
+                        width: 100vw !important;
+                        height: 100vh !important;
+                        padding: 15px !important;
+                    }
+                    
+                    .title {
+                        font-size: 24px !important;
+                    }
+                    
+                    .subtitle {
+                        font-size: 14px !important;
+                    }
+                    
+                    .logos-grid {
+                        grid-template-columns: 1fr !important;
+                        gap: 15px !important;
+                        padding: 15px !important;
+                    }
+                    
+                    .logo-item {
+                        height: 70px !important;
+                    }
+                    
+                    .services-grid {
+                        grid-template-columns: 1fr !important;
+                    }
+                }
+            </style>
+        `;
+
+        // Create all slide wrappers with iframes
         slides.forEach((src, i) => {
             const wrapper = document.createElement('div');
             wrapper.className = 'slide-wrapper' + (i === 0 ? ' active' : '');
             wrapper.id = 'slide-' + i;
+            const iframe = document.createElement('iframe');
+            iframe.src = src;
+            iframe.allowFullscreen = true;
+            iframe.setAttribute('scrolling', 'no');
+            iframe.setAttribute('frameborder', '0');
+            wrapper.appendChild(iframe);
+            body.insertBefore(wrapper, counter);
+            iframes.push(iframe);
             
-            const embed = document.createElement('embed');
-            embed.src = src;
-            embed.type = 'text/html';
-            embed.className = 'slide-content';
-            
-            wrapper.appendChild(embed);
-            container.appendChild(wrapper);
+            // Injetar CSS responsivo quando o iframe carregar
+            iframe.addEventListener('load', function() {
+                try {
+                    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                    if (iframeDoc && iframeDoc.head) {
+                        const style = iframeDoc.createElement('style');
+                        style.textContent = responsiveCSS.replace(/<\/?style>/g, '');
+                        iframeDoc.head.appendChild(style);
+                    }
+                } catch (e) {
+                    console.log('Não foi possível injetar CSS no iframe (CORS)');
+                }
+            });
         });
 
         function goTo(index) {
