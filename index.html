@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Aurion Studio - Apresentação</title>
     <style>
         * {
@@ -14,21 +14,19 @@
         html, body {
             width: 100%;
             height: 100%;
-            overflow: hidden;
             background-color: #0B0F1A;
-            position: fixed;
-            top: 0;
-            left: 0;
+            font-family: 'Inter', sans-serif;
+            color: #FFFFFF;
+            -webkit-user-select: none;
+            user-select: none;
+            touch-action: none;
         }
 
         body {
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: 'Inter', sans-serif;
-            -webkit-user-select: none;
-            user-select: none;
-            touch-action: none;
+            overflow: hidden;
         }
 
         .presentation-wrapper {
@@ -41,12 +39,12 @@
             overflow: hidden;
         }
 
+        /* Desktop: iframe com scaling */
         .iframe-container {
             width: 1920px;
             height: 1080px;
             position: relative;
             transform-origin: center center;
-            /* O scale será calculado via JavaScript */
         }
 
         iframe {
@@ -55,6 +53,21 @@
             border: none;
             display: block;
             background-color: #0B0F1A;
+        }
+
+        /* Mobile: slide direto no HTML */
+        .mobile-slide {
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+
+        .mobile-slide.active {
+            display: flex;
         }
 
         .navigation {
@@ -66,7 +79,7 @@
             gap: 15px;
             align-items: center;
             z-index: 1000;
-            background: rgba(11, 15, 26, 0.8);
+            background: rgba(11, 15, 26, 0.9);
             padding: 12px 20px;
             border-radius: 30px;
             backdrop-filter: blur(10px);
@@ -108,11 +121,11 @@
             margin-left: 10px;
         }
 
-        /* Touch zones invisíveis para mobile */
+        /* Touch zones */
         .touch-zone {
             position: fixed;
             top: 0;
-            width: 20%;
+            width: 30%;
             height: 100%;
             z-index: 999;
             cursor: pointer;
@@ -129,13 +142,7 @@
 
         @media (max-width: 1024px) {
             .touch-zone {
-                width: 30%;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .touch-zone {
-                width: 40%;
+                width: 35%;
             }
 
             .navigation {
@@ -161,10 +168,14 @@
     </style>
 </head>
 <body>
-    <div class="presentation-wrapper">
-        <div class="iframe-container" id="iframeContainer">
+    <div class="presentation-wrapper" id="wrapper">
+        <!-- Desktop: iframe container -->
+        <div class="iframe-container" id="iframeContainer" style="display: none;">
             <iframe id="slideFrame" src="slides_project/slide_1_capa.html" allow="fullscreen" scrolling="no" frameborder="0"></iframe>
         </div>
+
+        <!-- Mobile: slides diretos -->
+        <div id="mobileSlidesContainer"></div>
     </div>
 
     <div class="touch-zone left" id="leftZone"></div>
@@ -178,7 +189,6 @@
     </div>
 
     <script>
-        // Lista de slides
         const slides = [
             'slides_project/slide_1_capa.html',
             'slides_project/slide_2_quem_somos.html',
@@ -197,24 +207,29 @@
         let currentSlide = 0;
         let touchStartX = 0;
         let touchStartY = 0;
-        let touchEndX = 0;
-        let touchEndY = 0;
+        let isMobile = false;
 
         const slideFrame = document.getElementById('slideFrame');
         const iframeContainer = document.getElementById('iframeContainer');
+        const mobileSlidesContainer = document.getElementById('mobileSlidesContainer');
+        const wrapper = document.getElementById('wrapper');
         const currentSlideSpan = document.getElementById('currentSlide');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
         const leftZone = document.getElementById('leftZone');
         const rightZone = document.getElementById('rightZone');
 
-        // Função para calcular o scale dos iframes
+        // Detectar se é mobile
+        function detectMobile() {
+            return window.innerWidth <= 1024;
+        }
+
+        // Calcular scale para desktop
         function calculateScale() {
-            const wrapper = document.querySelector('.presentation-wrapper');
+            if (isMobile) return;
+            
             const containerWidth = wrapper.clientWidth;
             const containerHeight = wrapper.clientHeight;
-
-            // Proporção do slide: 1920x1080 = 16:9
             const slideWidth = 1920;
             const slideHeight = 1080;
             const slideRatio = slideWidth / slideHeight;
@@ -222,35 +237,123 @@
 
             let scale;
             if (screenRatio > slideRatio) {
-                // Tela mais larga que o slide (landscape)
                 scale = containerHeight / slideHeight;
             } else {
-                // Tela mais alta que o slide (portrait)
                 scale = containerWidth / slideWidth;
             }
 
-            // Garantir que o scale não ultrapasse 1 em desktop
-            if (scale > 1) {
-                scale = 1;
-            }
-
-            // Aplicar o scale com transform
+            if (scale > 1) scale = 1;
             iframeContainer.style.transform = `scale(${scale})`;
         }
 
-        // Carregar slide
-        function loadSlide(index) {
-            slideFrame.src = slides[index];
-            currentSlideSpan.textContent = index + 1;
-            // Recalcular scale após carregar o slide
-            setTimeout(calculateScale, 100);
+        // Carregar slides mobile via fetch
+        async function loadMobileSlides() {
+            for (let i = 0; i < slides.length; i++) {
+                try {
+                    const response = await fetch(slides[i]);
+                    const html = await response.text();
+                    
+                    // Extrair o conteúdo do slide
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const slideContainer = doc.querySelector('.slide-container');
+                    
+                    if (slideContainer) {
+                        const mobileSlide = document.createElement('div');
+                        mobileSlide.className = 'mobile-slide' + (i === 0 ? ' active' : '');
+                        mobileSlide.id = 'mobile-slide-' + i;
+                        
+                        // Copiar o conteúdo do slide
+                        mobileSlide.innerHTML = slideContainer.innerHTML;
+                        
+                        // Adicionar estilos mobile
+                        const style = doc.querySelector('style');
+                        if (style) {
+                            const mobileStyle = document.createElement('style');
+                            mobileStyle.textContent = style.textContent + `
+                                .slide-container {
+                                    width: 100% !important;
+                                    height: auto !important;
+                                    padding: 20px !important;
+                                    max-width: 100% !important;
+                                    display: flex !important;
+                                    flex-direction: column !important;
+                                    gap: 15px !important;
+                                }
+                                
+                                .title, h1 {
+                                    font-size: 28px !important;
+                                    line-height: 1.2 !important;
+                                }
+                                
+                                .subtitle, h2 {
+                                    font-size: 16px !important;
+                                }
+                                
+                                .logos-grid, .services-grid, .portfolio-grid, .grid {
+                                    grid-template-columns: 2fr !important;
+                                    gap: 12px !important;
+                                    padding: 0 !important;
+                                }
+                                
+                                .logo-item, .service-card, .grid-item {
+                                    height: 80px !important;
+                                    width: 100% !important;
+                                }
+                                
+                                p {
+                                    font-size: 14px !important;
+                                    line-height: 1.4 !important;
+                                }
+                                
+                                .footer-text {
+                                    font-size: 12px !important;
+                                    margin-top: 15px !important;
+                                }
+                                
+                                @media (max-width: 480px) {
+                                    .title, h1 {
+                                        font-size: 22px !important;
+                                    }
+                                    
+                                    .subtitle, h2 {
+                                        font-size: 14px !important;
+                                    }
+                                    
+                                    p {
+                                        font-size: 12px !important;
+                                    }
+                                }
+                            `;
+                            mobileSlide.appendChild(mobileStyle);
+                        }
+                        
+                        mobileSlidesContainer.appendChild(mobileSlide);
+                    }
+                } catch (e) {
+                    console.error('Erro ao carregar slide mobile:', e);
+                }
+            }
+        }
+
+        // Inicializar
+        function init() {
+            isMobile = detectMobile();
+            
+            if (isMobile) {
+                iframeContainer.style.display = 'none';
+                loadMobileSlides();
+            } else {
+                iframeContainer.style.display = 'block';
+                calculateScale();
+            }
         }
 
         // Navegar para próximo slide
         function nextSlide() {
             if (currentSlide < slides.length - 1) {
                 currentSlide++;
-                loadSlide(currentSlide);
+                updateSlide();
             }
         }
 
@@ -258,15 +361,35 @@
         function prevSlide() {
             if (currentSlide > 0) {
                 currentSlide--;
-                loadSlide(currentSlide);
+                updateSlide();
             }
         }
 
-        // Event listeners para botões
+        // Atualizar slide
+        function updateSlide() {
+            currentSlideSpan.textContent = currentSlide + 1;
+            
+            if (isMobile) {
+                // Atualizar slides mobile
+                document.querySelectorAll('.mobile-slide').forEach((slide, i) => {
+                    slide.classList.toggle('active', i === currentSlide);
+                });
+                
+                // Scroll para o topo
+                const activeSlide = document.getElementById('mobile-slide-' + currentSlide);
+                if (activeSlide) {
+                    activeSlide.scrollTop = 0;
+                }
+            } else {
+                // Atualizar iframe desktop
+                slideFrame.src = slides[currentSlide];
+            }
+        }
+
+        // Event listeners
         nextBtn.addEventListener('click', nextSlide);
         prevBtn.addEventListener('click', prevSlide);
 
-        // Event listeners para teclado
         document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
                 e.preventDefault();
@@ -278,48 +401,47 @@
             }
         });
 
-        // Event listeners para touch/swipe
+        // Touch/Swipe
         document.addEventListener('touchstart', (e) => {
             touchStartX = e.changedTouches[0].screenX;
             touchStartY = e.changedTouches[0].screenY;
         }, { passive: true });
 
         document.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            touchEndY = e.changedTouches[0].screenY;
-            handleSwipe();
-        }, { passive: true });
-
-        function handleSwipe() {
-            const swipeThreshold = 50;
+            const touchEndX = e.changedTouches[0].screenX;
+            const touchEndY = e.changedTouches[0].screenY;
             const diffX = touchStartX - touchEndX;
             const diffY = touchStartY - touchEndY;
 
-            // Só considerar swipe se for principalmente horizontal
-            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > swipeThreshold) {
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
                 if (diffX > 0) {
-                    // Swipe para esquerda = próximo slide
                     nextSlide();
                 } else {
-                    // Swipe para direita = slide anterior
                     prevSlide();
                 }
             }
-        }
+        }, { passive: true });
 
-        // Event listeners para touch zones
+        // Touch zones
         leftZone.addEventListener('click', prevSlide);
         rightZone.addEventListener('click', nextSlide);
 
-        // Calcular scale ao carregar e ao redimensionar
-        window.addEventListener('load', calculateScale);
-        window.addEventListener('resize', calculateScale);
-        window.addEventListener('orientationchange', () => {
-            setTimeout(calculateScale, 100);
+        // Resize listener
+        window.addEventListener('resize', () => {
+            const wasMobile = isMobile;
+            isMobile = detectMobile();
+            
+            if (isMobile !== wasMobile) {
+                // Mudou entre mobile e desktop
+                location.reload();
+            } else if (!isMobile) {
+                calculateScale();
+            }
         });
 
-        // Calcular scale após um pequeno delay (para garantir que o layout foi renderizado)
-        setTimeout(calculateScale, 100);
+        // Inicializar
+        window.addEventListener('load', init);
+        init();
     </script>
 </body>
 </html>
