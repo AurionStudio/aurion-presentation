@@ -17,28 +17,38 @@
             position: fixed;
         }
         
-        .slide-wrapper {
+        .slide-container {
             width: 100vw;
             height: 100vh;
-            display: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             position: absolute;
-            top: 0; 
+            top: 0;
             left: 0;
-            overflow: hidden;
         }
         
-        .slide-wrapper.active { 
+        .slide-wrapper {
+            display: none;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        
+        .slide-wrapper.active {
             display: flex;
             align-items: center;
             justify-content: center;
         }
         
-        .slide-wrapper iframe {
-            width: 1920px;
-            height: 1080px;
-            border: none;
-            display: block;
-            transform-origin: top left;
+        .slide-content {
+            width: 100%;
+            height: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: contain;
+            background: #0a0a0f;
         }
 
         /* Invisible touch zones for tap navigation */
@@ -98,6 +108,7 @@
     </style>
 </head>
 <body>
+    <div class="slide-container" id="slideContainer"></div>
     <div class="slide-counter" id="counter">1 / 12</div>
     <div class="nav-hint">← → ou deslize</div>
 
@@ -123,42 +134,23 @@
 
         let current = 0;
         const total = slides.length;
-        const body = document.body;
+        const container = document.getElementById('slideContainer');
         const counter = document.getElementById('counter');
-        const slideWrappers = [];
 
-        // Create all slide wrappers with iframes
+        // Create all slide wrappers with embed
         slides.forEach((src, i) => {
             const wrapper = document.createElement('div');
             wrapper.className = 'slide-wrapper' + (i === 0 ? ' active' : '');
             wrapper.id = 'slide-' + i;
-            const iframe = document.createElement('iframe');
-            iframe.src = src;
-            iframe.allowFullscreen = true;
-            iframe.setAttribute('scrolling', 'no');
-            iframe.setAttribute('frameborder', '0');
-            wrapper.appendChild(iframe);
-            body.insertBefore(wrapper, counter);
-            slideWrappers.push({ wrapper, iframe });
+            
+            const embed = document.createElement('embed');
+            embed.src = src;
+            embed.type = 'text/html';
+            embed.className = 'slide-content';
+            
+            wrapper.appendChild(embed);
+            container.appendChild(wrapper);
         });
-
-        // Function to calculate and apply scale
-        function updateScale() {
-            const viewportWidth = window.innerWidth;
-            const viewportHeight = window.innerHeight;
-            const slideWidth = 1920;
-            const slideHeight = 1080;
-
-            // Calculate scale to fit slide in viewport
-            const scaleX = viewportWidth / slideWidth;
-            const scaleY = viewportHeight / slideHeight;
-            const scale = Math.min(scaleX, scaleY);
-
-            // Apply scale to all iframes
-            slideWrappers.forEach(({ iframe }) => {
-                iframe.style.transform = `scale(${scale})`;
-            });
-        }
 
         function goTo(index) {
             if (index < 0 || index >= total) return;
@@ -213,16 +205,6 @@
                 }
             }
         }, { passive: true });
-
-        // Update scale on load and on resize
-        window.addEventListener('load', updateScale);
-        window.addEventListener('resize', updateScale);
-        window.addEventListener('orientationchange', () => {
-            setTimeout(updateScale, 100);
-        });
-
-        // Initial scale
-        updateScale();
     </script>
 </body>
 </html>
