@@ -2,106 +2,183 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Aurion Studio - Creative Intelligence</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+    <title>Aurion Studio - Apresentação</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body { 
-            width: 100%; 
-            height: 100%; 
-            overflow: hidden; 
-            background: #0a0a0f; 
-            touch-action: none;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #0B0F1A;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Inter', sans-serif;
             -webkit-user-select: none;
             user-select: none;
-            position: fixed;
+            touch-action: none;
         }
-        
-        .slide-wrapper {
-            width: 100vw;
-            height: 100vh;
-            display: none;
-            position: absolute;
-            top: 0; 
-            left: 0;
+
+        .presentation-wrapper {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
             overflow: hidden;
         }
-        
-        .slide-wrapper.active { 
-            display: block; 
+
+        .iframe-container {
+            width: 1920px;
+            height: 1080px;
+            position: relative;
+            transform-origin: center center;
+            /* O scale será calculado via JavaScript */
         }
-        
-        .slide-wrapper iframe {
+
+        iframe {
             width: 100%;
             height: 100%;
             border: none;
+            display: block;
+            background-color: #0B0F1A;
         }
 
-        /* Invisible touch zones for tap navigation */
+        .navigation {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(11, 15, 26, 0.8);
+            padding: 12px 20px;
+            border-radius: 30px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .nav-button {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #14F1D9;
+            background: transparent;
+            color: #14F1D9;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .nav-button:hover {
+            background: #14F1D9;
+            color: #0B0F1A;
+        }
+
+        .slide-counter {
+            color: #14F1D9;
+            font-size: 14px;
+            font-weight: 600;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .nav-hint {
+            color: #8B5CF6;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+
+        /* Touch zones invisíveis para mobile */
         .touch-zone {
             position: fixed;
             top: 0;
-            width: 25%;
+            width: 20%;
             height: 100%;
-            z-index: 9990;
+            z-index: 999;
             cursor: pointer;
             -webkit-tap-highlight-color: transparent;
         }
-        
-        .touch-zone.left { 
-            left: 0; 
-        }
-        
-        .touch-zone.right { 
-            right: 0; 
+
+        .touch-zone.left {
+            left: 0;
         }
 
-        /* Counter and hint */
-        .slide-counter {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background: rgba(0, 0, 0, 0.7);
-            color: #fff;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
-            font-size: 13px;
-            z-index: 9999;
-            opacity: 0.8;
-            pointer-events: none;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+        .touch-zone.right {
+            right: 0;
         }
-        
-        .nav-hint {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.7);
-            color: #00e5ff;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
-            font-size: 13px;
-            z-index: 9999;
-            opacity: 0.7;
-            pointer-events: none;
-            white-space: nowrap;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+
+        @media (max-width: 1024px) {
+            .touch-zone {
+                width: 30%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .touch-zone {
+                width: 40%;
+            }
+
+            .navigation {
+                bottom: 15px;
+                padding: 10px 15px;
+                gap: 10px;
+            }
+
+            .nav-button {
+                width: 36px;
+                height: 36px;
+                font-size: 16px;
+            }
+
+            .slide-counter {
+                font-size: 12px;
+            }
+
+            .nav-hint {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="slide-counter" id="counter">1 / 12</div>
-    <div class="nav-hint">← → ou deslize</div>
+    <div class="presentation-wrapper">
+        <div class="iframe-container" id="iframeContainer">
+            <iframe id="slideFrame" src="slides_project/slide_1_capa.html" allow="fullscreen" scrolling="no" frameborder="0"></iframe>
+        </div>
+    </div>
 
-    <!-- Invisible touch zones for tap navigation -->
-    <div class="touch-zone left" id="touchLeft"></div>
-    <div class="touch-zone right" id="touchRight"></div>
+    <div class="touch-zone left" id="leftZone"></div>
+    <div class="touch-zone right" id="rightZone"></div>
+
+    <div class="navigation">
+        <button class="nav-button" id="prevBtn">←</button>
+        <span class="slide-counter"><span id="currentSlide">1</span> / 12</span>
+        <button class="nav-button" id="nextBtn">→</button>
+        <span class="nav-hint">ou deslize</span>
+    </div>
 
     <script>
+        // Lista de slides
         const slides = [
             'slides_project/slide_1_capa.html',
             'slides_project/slide_2_quem_somos.html',
@@ -117,204 +194,91 @@
             'slides_project/slide_9_contato.html'
         ];
 
-        let current = 0;
-        const total = slides.length;
-        const body = document.body;
-        const counter = document.getElementById('counter');
-        const iframes = [];
-
-        // CSS responsivo que será injetado em cada iframe
-        const responsiveCSS = `
-            <style>
-                @media (max-width: 1024px) {
-                    .slide-container {
-                        width: 100vw !important;
-                        height: 100vh !important;
-                        padding: 20px !important;
-                        max-width: 100% !important;
-                    }
-                    
-                    .title {
-                        font-size: 32px !important;
-                        letter-spacing: 1px !important;
-                    }
-                    
-                    .subtitle {
-                        font-size: 16px !important;
-                        letter-spacing: 0.5px !important;
-                    }
-                    
-                    .logos-grid {
-                        grid-template-columns: repeat(2, 1fr) !important;
-                        gap: 20px !important;
-                        padding: 20px !important;
-                        max-width: 100% !important;
-                    }
-                    
-                    .logo-item {
-                        height: 80px !important;
-                        width: 100% !important;
-                    }
-                    
-                    .logo-img {
-                        max-width: 90% !important;
-                        max-height: 90% !important;
-                    }
-                    
-                    .logo-beats { max-height: 60px !important; }
-                    .logo-tomorrowland { max-height: 70px !important; }
-                    .logo-flyfish { max-height: 50px !important; }
-                    
-                    .footer-text {
-                        margin-top: 20px !important;
-                        font-size: 14px !important;
-                        padding-top: 15px !important;
-                    }
-                    
-                    .header {
-                        margin-bottom: 30px !important;
-                    }
-                    
-                    /* Serviços */
-                    .services-grid {
-                        grid-template-columns: repeat(2, 1fr) !important;
-                        gap: 15px !important;
-                        padding: 15px !important;
-                    }
-                    
-                    .service-card {
-                        padding: 15px !important;
-                        min-height: auto !important;
-                    }
-                    
-                    .service-title {
-                        font-size: 14px !important;
-                    }
-                    
-                    .service-desc {
-                        font-size: 12px !important;
-                    }
-                    
-                    /* Texto geral */
-                    body {
-                        font-size: 14px !important;
-                    }
-                    
-                    h1, .title {
-                        font-size: 28px !important;
-                    }
-                    
-                    h2 {
-                        font-size: 20px !important;
-                    }
-                    
-                    p {
-                        font-size: 13px !important;
-                        line-height: 1.4 !important;
-                    }
-                    
-                    /* Grid responsivo genérico */
-                    .grid {
-                        grid-template-columns: repeat(2, 1fr) !important;
-                        gap: 10px !important;
-                    }
-                    
-                    /* Flex responsivo */
-                    .flex-container {
-                        flex-direction: column !important;
-                    }
-                }
-                
-                @media (max-width: 768px) {
-                    .slide-container {
-                        width: 100vw !important;
-                        height: 100vh !important;
-                        padding: 15px !important;
-                    }
-                    
-                    .title {
-                        font-size: 24px !important;
-                    }
-                    
-                    .subtitle {
-                        font-size: 14px !important;
-                    }
-                    
-                    .logos-grid {
-                        grid-template-columns: 1fr !important;
-                        gap: 15px !important;
-                        padding: 15px !important;
-                    }
-                    
-                    .logo-item {
-                        height: 70px !important;
-                    }
-                    
-                    .services-grid {
-                        grid-template-columns: 1fr !important;
-                    }
-                }
-            </style>
-        `;
-
-        // Create all slide wrappers with iframes
-        slides.forEach((src, i) => {
-            const wrapper = document.createElement('div');
-            wrapper.className = 'slide-wrapper' + (i === 0 ? ' active' : '');
-            wrapper.id = 'slide-' + i;
-            const iframe = document.createElement('iframe');
-            iframe.src = src;
-            iframe.allowFullscreen = true;
-            iframe.setAttribute('scrolling', 'no');
-            iframe.setAttribute('frameborder', '0');
-            wrapper.appendChild(iframe);
-            body.insertBefore(wrapper, counter);
-            iframes.push(iframe);
-            
-            // Injetar CSS responsivo quando o iframe carregar
-            iframe.addEventListener('load', function() {
-                try {
-                    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-                    if (iframeDoc && iframeDoc.head) {
-                        const style = iframeDoc.createElement('style');
-                        style.textContent = responsiveCSS.replace(/<\/?style>/g, '');
-                        iframeDoc.head.appendChild(style);
-                    }
-                } catch (e) {
-                    console.log('Não foi possível injetar CSS no iframe (CORS)');
-                }
-            });
-        });
-
-        function goTo(index) {
-            if (index < 0 || index >= total) return;
-            document.getElementById('slide-' + current).classList.remove('active');
-            current = index;
-            document.getElementById('slide-' + current).classList.add('active');
-            counter.textContent = (current + 1) + ' / ' + total;
-        }
-
-        // Keyboard navigation (desktop)
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-                e.preventDefault();
-                goTo(current + 1);
-            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-                e.preventDefault();
-                goTo(current - 1);
-            }
-        });
-
-        // Touch zone tap navigation (mobile)
-        document.getElementById('touchLeft').addEventListener('click', () => goTo(current - 1));
-        document.getElementById('touchRight').addEventListener('click', () => goTo(current + 1));
-
-        // Swipe navigation (touch devices)
+        let currentSlide = 0;
         let touchStartX = 0;
         let touchStartY = 0;
         let touchEndX = 0;
         let touchEndY = 0;
 
+        const slideFrame = document.getElementById('slideFrame');
+        const iframeContainer = document.getElementById('iframeContainer');
+        const currentSlideSpan = document.getElementById('currentSlide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const leftZone = document.getElementById('leftZone');
+        const rightZone = document.getElementById('rightZone');
+
+        // Função para calcular o scale dos iframes
+        function calculateScale() {
+            const wrapper = document.querySelector('.presentation-wrapper');
+            const containerWidth = wrapper.clientWidth;
+            const containerHeight = wrapper.clientHeight;
+
+            // Proporção do slide: 1920x1080 = 16:9
+            const slideWidth = 1920;
+            const slideHeight = 1080;
+            const slideRatio = slideWidth / slideHeight;
+            const screenRatio = containerWidth / containerHeight;
+
+            let scale;
+            if (screenRatio > slideRatio) {
+                // Tela mais larga que o slide (landscape)
+                scale = containerHeight / slideHeight;
+            } else {
+                // Tela mais alta que o slide (portrait)
+                scale = containerWidth / slideWidth;
+            }
+
+            // Garantir que o scale não ultrapasse 1 em desktop
+            if (scale > 1) {
+                scale = 1;
+            }
+
+            // Aplicar o scale com transform
+            iframeContainer.style.transform = `scale(${scale})`;
+        }
+
+        // Carregar slide
+        function loadSlide(index) {
+            slideFrame.src = slides[index];
+            currentSlideSpan.textContent = index + 1;
+            // Recalcular scale após carregar o slide
+            setTimeout(calculateScale, 100);
+        }
+
+        // Navegar para próximo slide
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                loadSlide(currentSlide);
+            }
+        }
+
+        // Navegar para slide anterior
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                loadSlide(currentSlide);
+            }
+        }
+
+        // Event listeners para botões
+        nextBtn.addEventListener('click', nextSlide);
+        prevBtn.addEventListener('click', prevSlide);
+
+        // Event listeners para teclado
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                e.preventDefault();
+                nextSlide();
+            }
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                prevSlide();
+            }
+        });
+
+        // Event listeners para touch/swipe
         document.addEventListener('touchstart', (e) => {
             touchStartX = e.changedTouches[0].screenX;
             touchStartY = e.changedTouches[0].screenY;
@@ -323,22 +287,39 @@
         document.addEventListener('touchend', (e) => {
             touchEndX = e.changedTouches[0].screenX;
             touchEndY = e.changedTouches[0].screenY;
+            handleSwipe();
+        }, { passive: true });
 
+        function handleSwipe() {
+            const swipeThreshold = 50;
             const diffX = touchStartX - touchEndX;
             const diffY = touchStartY - touchEndY;
-            const minSwipeDistance = 50;
 
-            // Only trigger if horizontal swipe is dominant
-            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > minSwipeDistance) {
+            // Só considerar swipe se for principalmente horizontal
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > swipeThreshold) {
                 if (diffX > 0) {
-                    // Swipe left → next slide
-                    goTo(current + 1);
+                    // Swipe para esquerda = próximo slide
+                    nextSlide();
                 } else {
-                    // Swipe right → previous slide
-                    goTo(current - 1);
+                    // Swipe para direita = slide anterior
+                    prevSlide();
                 }
             }
-        }, { passive: true });
+        }
+
+        // Event listeners para touch zones
+        leftZone.addEventListener('click', prevSlide);
+        rightZone.addEventListener('click', nextSlide);
+
+        // Calcular scale ao carregar e ao redimensionar
+        window.addEventListener('load', calculateScale);
+        window.addEventListener('resize', calculateScale);
+        window.addEventListener('orientationchange', () => {
+            setTimeout(calculateScale, 100);
+        });
+
+        // Calcular scale após um pequeno delay (para garantir que o layout foi renderizado)
+        setTimeout(calculateScale, 100);
     </script>
 </body>
 </html>
