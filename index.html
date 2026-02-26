@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Aurion Studio - Creative Intelligence</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -14,6 +14,7 @@
             touch-action: none;
             -webkit-user-select: none;
             user-select: none;
+            position: fixed;
         }
         
         .slide-wrapper {
@@ -23,16 +24,21 @@
             position: absolute;
             top: 0; 
             left: 0;
+            overflow: hidden;
         }
         
         .slide-wrapper.active { 
-            display: block; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .slide-wrapper iframe {
-            width: 100%;
-            height: 100%;
+            width: 1920px;
+            height: 1080px;
             border: none;
+            display: block;
+            transform-origin: top left;
         }
 
         /* Invisible touch zones for tap navigation */
@@ -119,6 +125,7 @@
         const total = slides.length;
         const body = document.body;
         const counter = document.getElementById('counter');
+        const slideWrappers = [];
 
         // Create all slide wrappers with iframes
         slides.forEach((src, i) => {
@@ -129,9 +136,29 @@
             iframe.src = src;
             iframe.allowFullscreen = true;
             iframe.setAttribute('scrolling', 'no');
+            iframe.setAttribute('frameborder', '0');
             wrapper.appendChild(iframe);
             body.insertBefore(wrapper, counter);
+            slideWrappers.push({ wrapper, iframe });
         });
+
+        // Function to calculate and apply scale
+        function updateScale() {
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+            const slideWidth = 1920;
+            const slideHeight = 1080;
+
+            // Calculate scale to fit slide in viewport
+            const scaleX = viewportWidth / slideWidth;
+            const scaleY = viewportHeight / slideHeight;
+            const scale = Math.min(scaleX, scaleY);
+
+            // Apply scale to all iframes
+            slideWrappers.forEach(({ iframe }) => {
+                iframe.style.transform = `scale(${scale})`;
+            });
+        }
 
         function goTo(index) {
             if (index < 0 || index >= total) return;
@@ -186,6 +213,16 @@
                 }
             }
         }, { passive: true });
+
+        // Update scale on load and on resize
+        window.addEventListener('load', updateScale);
+        window.addEventListener('resize', updateScale);
+        window.addEventListener('orientationchange', () => {
+            setTimeout(updateScale, 100);
+        });
+
+        // Initial scale
+        updateScale();
     </script>
 </body>
 </html>
