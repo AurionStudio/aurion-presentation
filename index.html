@@ -2,11 +2,11 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Aurion Studio - Creative Intelligence</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0a0f; }
+        html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0a0f; touch-action: none; }
         .slide-wrapper {
             width: 100vw;
             height: 100vh;
@@ -19,41 +19,135 @@
             width: 100%;
             height: 100%;
             border: none;
+            pointer-events: none; /* Prevents iframe from stealing touch events */
+        }
+
+        /* Navigation buttons - visible on mobile, subtle on desktop */
+        .nav-btn {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 56px;
+            height: 56px;
+            background: rgba(0, 229, 255, 0.15);
+            border: 1.5px solid rgba(0, 229, 255, 0.4);
+            border-radius: 50%;
+            color: #00e5ff;
+            font-size: 22px;
+            cursor: pointer;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .nav-btn:hover {
+            background: rgba(0, 229, 255, 0.3);
+            border-color: rgba(0, 229, 255, 0.7);
+        }
+        .nav-btn:active {
+            background: rgba(0, 229, 255, 0.5);
+            transform: translateY(-50%) scale(0.92);
+        }
+        .nav-btn.prev { left: 12px; }
+        .nav-btn.next { right: 12px; }
+        .nav-btn.disabled {
+            opacity: 0.2;
+            pointer-events: none;
+        }
+
+        /* Touch zones - invisible tap areas on left/right edges */
+        .touch-zone {
+            position: fixed;
+            top: 0;
+            width: 20%;
+            height: 100%;
+            z-index: 9990;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .touch-zone.left { left: 0; }
+        .touch-zone.right { right: 0; }
+
+        /* Counter and hint */
+        .slide-counter {
+            position: fixed;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.7);
+            color: #fff;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+            font-size: 13px;
+            z-index: 9999;
+            opacity: 0.8;
+            pointer-events: none;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
         }
         .nav-hint {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(0,0,0,0.7);
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.75);
             color: #00e5ff;
-            padding: 8px 16px;
+            padding: 10px 24px;
             border-radius: 20px;
-            font-family: 'Inter', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
             font-size: 13px;
             z-index: 9999;
-            opacity: 0.7;
-            transition: opacity 0.3s;
+            opacity: 1;
+            transition: opacity 1s ease;
             pointer-events: none;
+            white-space: nowrap;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
         }
-        .slide-counter {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background: rgba(0,0,0,0.7);
-            color: #fff;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-family: 'Inter', sans-serif;
-            font-size: 13px;
-            z-index: 9999;
-            opacity: 0.7;
-            pointer-events: none;
+        .nav-hint.hidden { opacity: 0; }
+
+        /* Desktop: smaller buttons, more transparent */
+        @media (min-width: 769px) {
+            .nav-btn {
+                width: 44px;
+                height: 44px;
+                font-size: 18px;
+                opacity: 0.5;
+            }
+            .nav-btn:hover { opacity: 1; }
+            .touch-zone { display: none; }
+        }
+
+        /* Mobile: larger buttons, more visible */
+        @media (max-width: 768px) {
+            .nav-btn {
+                width: 48px;
+                height: 48px;
+                font-size: 20px;
+            }
+            .nav-btn.prev { left: 8px; }
+            .nav-btn.next { right: 8px; }
         }
     </style>
 </head>
 <body>
-    <div class="slide-counter" id="counter">1 / 13</div>
-    <div class="nav-hint">← → Use as setas para navegar</div>
+    <div class="slide-counter" id="counter">1 / 12</div>
+    <div class="nav-hint" id="navHint">Deslize ou toque nas setas para navegar</div>
+
+    <!-- Navigation buttons -->
+    <button class="nav-btn prev disabled" id="btnPrev" aria-label="Slide anterior">&#10094;</button>
+    <button class="nav-btn next" id="btnNext" aria-label="Próximo slide">&#10095;</button>
+
+    <!-- Invisible touch zones for tap navigation -->
+    <div class="touch-zone left" id="touchLeft"></div>
+    <div class="touch-zone right" id="touchRight"></div>
 
     <script>
         const slides = [
@@ -75,6 +169,9 @@
         const total = slides.length;
         const body = document.body;
         const counter = document.getElementById('counter');
+        const btnPrev = document.getElementById('btnPrev');
+        const btnNext = document.getElementById('btnNext');
+        const navHint = document.getElementById('navHint');
 
         // Create all slide wrappers with iframes
         slides.forEach((src, i) => {
@@ -84,9 +181,15 @@
             const iframe = document.createElement('iframe');
             iframe.src = src;
             iframe.allowFullscreen = true;
+            iframe.setAttribute('scrolling', 'no');
             wrapper.appendChild(iframe);
             body.insertBefore(wrapper, counter);
         });
+
+        function updateButtons() {
+            btnPrev.classList.toggle('disabled', current === 0);
+            btnNext.classList.toggle('disabled', current === total - 1);
+        }
 
         function goTo(index) {
             if (index < 0 || index >= total) return;
@@ -94,8 +197,12 @@
             current = index;
             document.getElementById('slide-' + current).classList.add('active');
             counter.textContent = (current + 1) + ' / ' + total;
+            updateButtons();
+            // Hide hint after first navigation
+            navHint.classList.add('hidden');
         }
 
+        // Keyboard navigation (desktop)
         document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
                 e.preventDefault();
@@ -105,6 +212,78 @@
                 goTo(current - 1);
             }
         });
+
+        // Button navigation
+        btnPrev.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            goTo(current - 1);
+        });
+        btnNext.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            goTo(current + 1);
+        });
+
+        // Touch zone tap navigation (mobile)
+        document.getElementById('touchLeft').addEventListener('click', () => goTo(current - 1));
+        document.getElementById('touchRight').addEventListener('click', () => goTo(current + 1));
+
+        // Swipe navigation (touch devices)
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchEndX = 0;
+        let touchEndY = 0;
+        let isSwiping = false;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            touchStartY = e.changedTouches[0].screenY;
+            isSwiping = true;
+        }, { passive: true });
+
+        document.addEventListener('touchmove', (e) => {
+            // Prevent default scrolling behavior
+            if (isSwiping) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        document.addEventListener('touchend', (e) => {
+            if (!isSwiping) return;
+            isSwiping = false;
+
+            touchEndX = e.changedTouches[0].screenX;
+            touchEndY = e.changedTouches[0].screenY;
+
+            const diffX = touchStartX - touchEndX;
+            const diffY = touchStartY - touchEndY;
+            const minSwipeDistance = 50;
+
+            // Only trigger if horizontal swipe is dominant
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > minSwipeDistance) {
+                if (diffX > 0) {
+                    // Swipe left → next slide
+                    goTo(current + 1);
+                } else {
+                    // Swipe right → previous slide
+                    goTo(current - 1);
+                }
+            }
+        }, { passive: true });
+
+        // Auto-hide hint after 4 seconds
+        setTimeout(() => {
+            navHint.classList.add('hidden');
+        }, 4000);
+
+        // Detect mobile and update hint text
+        if (window.innerWidth >= 769) {
+            navHint.textContent = '← → Use as setas para navegar';
+        }
+
+        // Initialize button states
+        updateButtons();
     </script>
 </body>
 </html>
