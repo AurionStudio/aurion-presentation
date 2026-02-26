@@ -19,14 +19,13 @@
             color: #FFFFFF;
             -webkit-user-select: none;
             user-select: none;
-            touch-action: none;
+            overflow: hidden;
         }
 
         body {
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
         }
 
         .presentation-wrapper {
@@ -39,7 +38,6 @@
             overflow: hidden;
         }
 
-        /* Desktop: iframe com scaling */
         .iframe-container {
             width: 1920px;
             height: 1080px;
@@ -53,21 +51,6 @@
             border: none;
             display: block;
             background-color: #0B0F1A;
-        }
-
-        /* Mobile: slide direto no HTML */
-        .mobile-slide {
-            width: 100%;
-            height: 100%;
-            display: none;
-            flex-direction: column;
-            overflow-y: auto;
-            overflow-x: hidden;
-            padding: 20px;
-        }
-
-        .mobile-slide.active {
-            display: flex;
         }
 
         .navigation {
@@ -169,13 +152,9 @@
 </head>
 <body>
     <div class="presentation-wrapper" id="wrapper">
-        <!-- Desktop: iframe container -->
-        <div class="iframe-container" id="iframeContainer" style="display: none;">
+        <div class="iframe-container" id="iframeContainer">
             <iframe id="slideFrame" src="slides_project/slide_1_capa.html" allow="fullscreen" scrolling="no" frameborder="0"></iframe>
         </div>
-
-        <!-- Mobile: slides diretos -->
-        <div id="mobileSlidesContainer"></div>
     </div>
 
     <div class="touch-zone left" id="leftZone"></div>
@@ -207,11 +186,9 @@
         let currentSlide = 0;
         let touchStartX = 0;
         let touchStartY = 0;
-        let isMobile = false;
 
         const slideFrame = document.getElementById('slideFrame');
         const iframeContainer = document.getElementById('iframeContainer');
-        const mobileSlidesContainer = document.getElementById('mobileSlidesContainer');
         const wrapper = document.getElementById('wrapper');
         const currentSlideSpan = document.getElementById('currentSlide');
         const prevBtn = document.getElementById('prevBtn');
@@ -219,15 +196,8 @@
         const leftZone = document.getElementById('leftZone');
         const rightZone = document.getElementById('rightZone');
 
-        // Detectar se é mobile
-        function detectMobile() {
-            return window.innerWidth <= 1024;
-        }
-
-        // Calcular scale para desktop
+        // Calcular scale para adaptar iframe ao tamanho da tela
         function calculateScale() {
-            if (isMobile) return;
-            
             const containerWidth = wrapper.clientWidth;
             const containerHeight = wrapper.clientHeight;
             const slideWidth = 1920;
@@ -237,116 +207,17 @@
 
             let scale;
             if (screenRatio > slideRatio) {
+                // Tela mais larga que o slide
                 scale = containerHeight / slideHeight;
             } else {
+                // Tela mais alta que o slide
                 scale = containerWidth / slideWidth;
             }
 
+            // Nunca fazer zoom in, apenas zoom out
             if (scale > 1) scale = 1;
+
             iframeContainer.style.transform = `scale(${scale})`;
-        }
-
-        // Carregar slides mobile via fetch
-        async function loadMobileSlides() {
-            for (let i = 0; i < slides.length; i++) {
-                try {
-                    const response = await fetch(slides[i]);
-                    const html = await response.text();
-                    
-                    // Extrair o conteúdo do slide
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(html, 'text/html');
-                    const slideContainer = doc.querySelector('.slide-container');
-                    
-                    if (slideContainer) {
-                        const mobileSlide = document.createElement('div');
-                        mobileSlide.className = 'mobile-slide' + (i === 0 ? ' active' : '');
-                        mobileSlide.id = 'mobile-slide-' + i;
-                        
-                        // Copiar o conteúdo do slide
-                        mobileSlide.innerHTML = slideContainer.innerHTML;
-                        
-                        // Adicionar estilos mobile
-                        const style = doc.querySelector('style');
-                        if (style) {
-                            const mobileStyle = document.createElement('style');
-                            mobileStyle.textContent = style.textContent + `
-                                .slide-container {
-                                    width: 100% !important;
-                                    height: auto !important;
-                                    padding: 20px !important;
-                                    max-width: 100% !important;
-                                    display: flex !important;
-                                    flex-direction: column !important;
-                                    gap: 15px !important;
-                                }
-                                
-                                .title, h1 {
-                                    font-size: 28px !important;
-                                    line-height: 1.2 !important;
-                                }
-                                
-                                .subtitle, h2 {
-                                    font-size: 16px !important;
-                                }
-                                
-                                .logos-grid, .services-grid, .portfolio-grid, .grid {
-                                    grid-template-columns: 2fr !important;
-                                    gap: 12px !important;
-                                    padding: 0 !important;
-                                }
-                                
-                                .logo-item, .service-card, .grid-item {
-                                    height: 80px !important;
-                                    width: 100% !important;
-                                }
-                                
-                                p {
-                                    font-size: 14px !important;
-                                    line-height: 1.4 !important;
-                                }
-                                
-                                .footer-text {
-                                    font-size: 12px !important;
-                                    margin-top: 15px !important;
-                                }
-                                
-                                @media (max-width: 480px) {
-                                    .title, h1 {
-                                        font-size: 22px !important;
-                                    }
-                                    
-                                    .subtitle, h2 {
-                                        font-size: 14px !important;
-                                    }
-                                    
-                                    p {
-                                        font-size: 12px !important;
-                                    }
-                                }
-                            `;
-                            mobileSlide.appendChild(mobileStyle);
-                        }
-                        
-                        mobileSlidesContainer.appendChild(mobileSlide);
-                    }
-                } catch (e) {
-                    console.error('Erro ao carregar slide mobile:', e);
-                }
-            }
-        }
-
-        // Inicializar
-        function init() {
-            isMobile = detectMobile();
-            
-            if (isMobile) {
-                iframeContainer.style.display = 'none';
-                loadMobileSlides();
-            } else {
-                iframeContainer.style.display = 'block';
-                calculateScale();
-            }
         }
 
         // Navegar para próximo slide
@@ -368,22 +239,7 @@
         // Atualizar slide
         function updateSlide() {
             currentSlideSpan.textContent = currentSlide + 1;
-            
-            if (isMobile) {
-                // Atualizar slides mobile
-                document.querySelectorAll('.mobile-slide').forEach((slide, i) => {
-                    slide.classList.toggle('active', i === currentSlide);
-                });
-                
-                // Scroll para o topo
-                const activeSlide = document.getElementById('mobile-slide-' + currentSlide);
-                if (activeSlide) {
-                    activeSlide.scrollTop = 0;
-                }
-            } else {
-                // Atualizar iframe desktop
-                slideFrame.src = slides[currentSlide];
-            }
+            slideFrame.src = slides[currentSlide];
         }
 
         // Event listeners
@@ -428,20 +284,15 @@
 
         // Resize listener
         window.addEventListener('resize', () => {
-            const wasMobile = isMobile;
-            isMobile = detectMobile();
-            
-            if (isMobile !== wasMobile) {
-                // Mudou entre mobile e desktop
-                location.reload();
-            } else if (!isMobile) {
-                calculateScale();
-            }
+            calculateScale();
         });
 
         // Inicializar
-        window.addEventListener('load', init);
-        init();
+        window.addEventListener('load', () => {
+            calculateScale();
+        });
+
+        calculateScale();
     </script>
 </body>
 </html>

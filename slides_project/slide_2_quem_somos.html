@@ -526,7 +526,99 @@
                 min-height: 60px !important;
             }
         }
-</style>
+
+    /* ===== RESPONSIVE CSS ===== */
+    @media (max-width: 1280px) {
+        .slide-container {
+            width: 100vw !important;
+            height: 100vh !important;
+            padding: 30px !important;
+            gap: 20px !important;
+        }
+        
+        .title, h1 {
+            font-size: 32px !important;
+        }
+        
+        .subtitle, h2, h3 {
+            font-size: 18px !important;
+        }
+        
+        p, .text {
+            font-size: 14px !important;
+        }
+        
+        .logos-grid, .services-grid, .portfolio-grid, .grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 15px !important;
+        }
+        
+        .logo-item, .service-card, .grid-item, .card {
+            height: 100px !important;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .slide-container {
+            width: 100vw !important;
+            height: 100vh !important;
+            padding: 20px !important;
+            gap: 15px !important;
+        }
+        
+        .title, h1 {
+            font-size: 24px !important;
+        }
+        
+        .subtitle, h2, h3 {
+            font-size: 16px !important;
+        }
+        
+        p, .text {
+            font-size: 13px !important;
+        }
+        
+        .logos-grid, .services-grid, .portfolio-grid, .grid {
+            grid-template-columns: 1fr !important;
+            gap: 12px !important;
+        }
+        
+        .logo-item, .service-card, .grid-item, .card {
+            height: 80px !important;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .slide-container {
+            width: 100vw !important;
+            height: 100vh !important;
+            padding: 15px !important;
+            gap: 10px !important;
+        }
+        
+        .title, h1 {
+            font-size: 20px !important;
+        }
+        
+        .subtitle, h2, h3 {
+            font-size: 14px !important;
+        }
+        
+        p, .text {
+            font-size: 12px !important;
+        }
+        
+        .logos-grid, .services-grid, .portfolio-grid, .grid {
+            grid-template-columns: 1fr !important;
+            gap: 10px !important;
+        }
+        
+        .logo-item, .service-card, .grid-item, .card {
+            height: 70px !important;
+        }
+    }
+
+    </style>
 </head>
 <body>
     <div class="slide-container">
